@@ -64,4 +64,4 @@ fi
 
 export DEPLOY_ID=`head -2 out.json | tail -1 | cut -f4 -d\"`
 
-aws deploy wait deployment-successful --deployment-id $DEPLOY_ID
+aws deploy wait deployment-successful --profile code-deploy-action --region ${AWS_REGION} --deployment-id $DEPLOY_ID
