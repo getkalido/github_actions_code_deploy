@@ -52,11 +52,11 @@ ${AWS_REGION}
 text
 EOF
 
-aws deploy create-deployment --profile code-deploy-action \
-              --region ${AWS_REGION}
+sh -c "aws deploy create-deployment --profile code-deploy-action \
+              --region ${AWS_REGION} \
               --application-name ${AWS_APPLICATION_NAME} \
               --deployment-group-name ${AWS_DEPLOYMENT_GROUP_NAME} \
-              --s3-location bucket=${AWS_S3_BUCKET},bundleType=${AWS_S3_BUNDLE_TYPE},key=${AWS_S3_LOCATION_KEY} >> out.json
+              --s3-location bucket=${AWS_S3_BUCKET},bundleType=${AWS_S3_BUNDLE_TYPE},key=${AWS_S3_LOCATION_KEY} >> out.json"
               
 if [ -z "$WAIT_FOR_BUILD" ]; then
   exit 0
