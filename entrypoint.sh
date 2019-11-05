@@ -55,4 +55,12 @@ EOF
 aws deploy create-deployment --profile code-deploy-action \
               --application-name ${AWS_APPLICATION_NAME} \
               --deployment-group-name ${AWS_DEPLOYMENT_GROUP_NAME} \
-              --s3-location bucket=${AWS_S3_BUCKET},bundleType=${AWS_S3_BUNDLE_TYPE},key=${AWS_S3_LOCATION_KEY}
+              --s3-location bucket=${AWS_S3_BUCKET},bundleType=${AWS_S3_BUNDLE_TYPE},key=${AWS_S3_LOCATION_KEY} >> out.json
+              
+if [ -z "$WAIT_FOR_BUILD" ]; then
+  exit 0
+fi
+
+export DEPLOY_ID=`head -2 out.json | tail -1 | cut -f4 -d\"`
+
+aws deploy wait deployment-successful --deployment-id $DEPLOY_ID
